@@ -1,0 +1,6 @@
+.idea
+venv
+.vscode
+
+.gitignore
+**/.git
