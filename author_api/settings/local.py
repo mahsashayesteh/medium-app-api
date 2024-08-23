@@ -10,7 +10,6 @@ SECRET_KEY = env(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8080']
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
-
-ALLOWED_HOSTS = []
