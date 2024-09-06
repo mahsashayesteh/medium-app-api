@@ -10,13 +10,12 @@ User = get_user_model()
 
 class Profile(TimeStampedModel):
     class Gender(models.TextChoices):
-        MALE = "M",_("مرد"),
-        FEMAIL = "F", _("خانم"),
+        MALE = "M",_("مرد")
+        FEMAIL = "F", _("خانم")
     
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="پروفایل"
-        )
-    phonenumber = models.CharField(unique=True, max_length=15)
+        User, on_delete=models.CASCADE, related_name="profile")
+    phonenumber = models.CharField( max_length=15)
     about_me = models.TextField(verbose_name=_("درباره من"), 
                                 default="یادداشت کنید")
     gender = models.CharField(verbose_name=_("جنسیت"),

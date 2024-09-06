@@ -8,8 +8,8 @@ from .manager import CustomeUserManager
 class User(AbstractBaseUser, PermissionsMixin):
     pkid = models.BigAutoField(primary_key=True, editable=False)
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    # username = models.CharField(verbose_name=_("نام کاربری"), db_index=True, 
-    #                             max_length=255, default="username")
+    username = models.CharField(verbose_name=_("نام کاربری"), db_index=True, 
+                                max_length=255, default="username")
     first_name = models.CharField(verbose_name=_("نام"), max_length=50)
     last_name = models.CharField(verbose_name=_("نام خانوادگی"), max_length=50)
     email = models.EmailField(verbose_name=_("ایمیل"), unique=True, db_index=True)
@@ -27,7 +27,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _("کاربران")
     
     def __str__(self):
-        return self.first_name
+        return self.email
     
     @property
     def get_full_name(self):
@@ -35,7 +35,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def get_short_name(self):
         return self.first_name
-    
-    
-    
     
