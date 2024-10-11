@@ -15,8 +15,9 @@ import os
 import environ
 from datetime import timedelta
 
+# تعریف متغیر محیطی
 env = environ.Env()
-environ.Env.read_env()
+environ.Env.read_env(env_file=".envs/.local")
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -34,7 +35,7 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.sites"
+    "django.contrib.sites",
 ]
 
 THIRD_PARTY_APPS = [
@@ -50,12 +51,16 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    "taggit",
+    
 ]
 
 LOCAL_APPS = [
     "core_apps.profiles",
     "core_apps.common",
     "core_apps.users",
+    "core_apps.article",
+    "core_apps.rating",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -187,6 +192,9 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
     ],
 }
 

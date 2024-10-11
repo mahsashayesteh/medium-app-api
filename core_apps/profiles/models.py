@@ -29,18 +29,34 @@ class Profile(TimeStampedModel):
     profile_photo = models.ImageField(
         verbose_name=_("عکس پروفایل"), default="/profile_photo"
         )
+    twitter_handle = models.CharField(
+        verbose_name=_("twitter_handle"), max_length=20, blank=True
+    )
     followers = models.ManyToManyField(
-        "self", symmetrical=False, related_name="following", blank=True
-        )
+        "self", symmetrical=False, related_name="followed_by", blank=True
+    )
     
     def __str__(self) :
         return f"{self.user.first_name}"
     
-    def follow(self, profile):
-        return self.followers.add(profile)
+    def following_list(self):
+        return self.followers.all()
     
+    def followers_list(self):
+        return self.followed_by.all()
+
+    def follow(self, profile):
+        self.followers.add(profile)
+
     def unfollow(self, profile):
-        return self.followers.remove(profile)
+        self.followers.remove(profile)
     
     def check_followers(self, profile):
         return self.followers.filter(pkid=profile.pkid).exists()
+
+    def check_following(self, profile):
+        return self.followers.filter(pkid=profile.pkid).exists()
+
+    def check_is_followed_by(self, profile):
+        return self.followed_by.filter(pkid=profile.pkid).exists()
+

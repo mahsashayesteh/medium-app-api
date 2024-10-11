@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 
 class CustomUserDetailView(RetrieveAPIView):
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user
