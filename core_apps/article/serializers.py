@@ -21,6 +21,7 @@ class TagListField(serializers.Field):
 class ArticleSerializers(serializers.ModelSerializer):
     author_info = ProfileSerializers(source = "author.profile", read_only=True)
     banner_image = serializers.SerializerMethodField()
+    average_rating = serializers.ReadOnlyField()
     article_read_time = serializers.ReadOnlyField()
     tags = TagListField()
     view = serializers.SerializerMethodField()
@@ -30,6 +31,9 @@ class ArticleSerializers(serializers.ModelSerializer):
     def get_view(self, obj):
         return ArticleView.objects.filter(article=obj).count()
     
+    def get_average_rating(self, obj):
+        obj.average_rating()
+
     def get_banner_image(self, obj):
         return obj.banner_image.url
     
@@ -72,6 +76,7 @@ class ArticleSerializers(serializers.ModelSerializer):
             "description",
             "body",
             "banner_image",
+            "average_rating",
             "created_at",
             "updated_at",
         )
