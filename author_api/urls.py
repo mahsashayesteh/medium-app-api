@@ -40,6 +40,7 @@ urlpatterns = [
     path("api/v1/profiles/", include("core_apps.profiles.urls") ),
     path("api/v1/articles/", include("core_apps.article.urls")),
     path("api/v1/rating/", include("core_apps.rating.urls")),
+    path("api/v1/bookmarks/", include("core_apps.bookmarks.urls")),
 
 ]
 

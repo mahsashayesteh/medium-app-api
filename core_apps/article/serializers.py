@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from .models import Article, ArticleView
+from .models import Article, ArticleView, Clap
 from core_apps.profiles.serializers import ProfileSerializers
+from core_apps.bookmarks.models import BookMarks
+from core_apps.bookmarks.serializers import BookMarkSerializer
 
 class TagListField(serializers.Field):
     def to_representation(self, value):
@@ -25,9 +27,26 @@ class ArticleSerializers(serializers.ModelSerializer):
     article_read_time = serializers.ReadOnlyField()
     tags = TagListField()
     view = serializers.SerializerMethodField()
+    bookmark = serializers.SerializerMethodField()
+    bookmark_count = serializers.SerializerMethodField()
+    claps_count = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
     
+    def get_bookmark(self, obj):
+        try:
+           bookmark = BookMarks.objects.filter(article=obj)
+           return BookMarkSerializer(bookmark, many=True).data
+        except BookMarks.DoesNotExist:
+            bookmark = None
+            return bookmark
+    
+    def get_bookmark_count(self, obj):
+        return BookMarks.objects.filter(article=obj).count()
+    
+    def get_claps_count(self, obj):
+        return obj.claps.count()
+
     def get_view(self, obj):
         return ArticleView.objects.filter(article=obj).count()
     
@@ -77,6 +96,19 @@ class ArticleSerializers(serializers.ModelSerializer):
             "body",
             "banner_image",
             "average_rating",
+            "bookmark",
+            "bookmark_count",
+            "claps_count",
             "created_at",
             "updated_at",
         )
+
+class ClapSerializer(serializers.ModelSerializer):
+    article_title = serializers.CharField(source="Article.title", read_only=True)
+    user_email = serializers.CharField(source="User.email", read_only=True)
+
+    class Meta:
+        model = Clap
+        field = [
+            "id", "article_title", "user_email", 
+        ]

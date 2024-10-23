@@ -36,6 +36,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    
 ]
 
 THIRD_PARTY_APPS = [
@@ -61,6 +62,7 @@ LOCAL_APPS = [
     "core_apps.users",
     "core_apps.article",
     "core_apps.rating",
+    "core_apps.bookmarks",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

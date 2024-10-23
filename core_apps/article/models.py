@@ -8,6 +8,17 @@ from .read_time_engin import ArticleReadTimeEngin
 
 User = get_user_model()
 
+class Clap(TimeStampedModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    article = models.ForeignKey("Article", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["user", "article"]
+        ordering = ["-created_at"]
+    
+    def __str__(self):
+        return f"{self.user.email} clapped {self.article.title}"
+
 class Article(TimeStampedModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE, 
                                related_name="articles")
@@ -18,7 +29,10 @@ class Article(TimeStampedModel):
     body = models.TextField(verbose_name=_("محتوای مقاله"))
     banner_image = models.ImageField(verbose_name=_("تصویر بنر"),
                                       default="/profile_defaul.png")
+    
     tags = TaggableManager()
+
+    claps = models.ManyToManyField(User, through=Clap, related_name="clapped_articles")
 
     def __str__(self):
         return f"{self.title} of {self.author.first_name}"

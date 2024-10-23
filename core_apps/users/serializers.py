@@ -14,6 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
     profile_photo = serializers.ReadOnlyField(source="profile.profile_photo.url", required=False)
     country = CountryField(source='profile.country',required=False)
     city = serializers.CharField(source="profile.city", required=False)
+    full_name = serializers.ReadOnlyField()
     first_name = serializers.SerializerMethodField()
     last_name = serializers.SerializerMethodField()
     full_name = serializers.SerializerMethodField()
@@ -26,6 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "first_name",
             "last_name",
+            "full_name",
             "gender",
             "phonenumber",
             "profile_photo",
