@@ -41,7 +41,9 @@ urlpatterns = [
     path("api/v1/articles/", include("core_apps.article.urls")),
     path("api/v1/rating/", include("core_apps.rating.urls")),
     path("api/v1/bookmarks/", include("core_apps.bookmarks.urls")),
-    path("api/v1/responses/", include("core_apps.responses.urls"))
+    path("api/v1/responses/", include("core_apps.responses.urls")),
+    path("api/v1/elasticsearch/", include("core_apps.search.urls")),
+    path("api/v1/elastic/", include("core_apps.search.urls")),
 
 ]
 
