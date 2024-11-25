@@ -41,8 +41,8 @@ class UserSerializer(serializers.ModelSerializer):
         return obj.last_name.title()
 
     def get_full_name(self, obj):
-        first_name = obj.user.first_name.title()
-        last_name = obj.user.last_name.title()
+        first_name = obj.first_name.title()
+        last_name = obj.last_name.title()
         return f"{first_name} {last_name}"
     
     def to_representation(self, instance):
@@ -60,13 +60,14 @@ class CustomRegisterSerializer(RegisterSerializer):
     password2 = serializers.CharField(required=True)
 
     def get_cleaned_data(self):
-        super().get_cleaned_data()
-        return{
-            "email":self.validated_data.get("email",""),
-            "first_name":self.validated_data.get("first_name",""),
-            "last_name":self.validated_data.get("last_name", ""),
-            "password":self.validated_data.get("password1", "")
-        }
+        data = super().get_cleaned_data()
+        data.update({
+            "email": self.validated_data.get("email", ""),
+            "first_name": self.validated_data.get("first_name", ""),
+            "last_name": self.validated_data.get("last_name", ""),
+            "password": self.validated_data.get("password1", ""),
+        })
+        return data
     def save(self, request):
         adapter = get_adapter()
         user = adapter.new_user(request)
